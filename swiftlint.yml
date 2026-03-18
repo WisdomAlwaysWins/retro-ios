@@ -1,0 +1,104 @@
+# SwiftLint Configuration for retro-ios
+
+# ─── 활성화할 옵트인 규칙 ───
+opt_in_rules:
+  - empty_count                    # count == 0 대신 isEmpty 사용
+  - empty_string                   # "" 비교 대신 isEmpty 사용
+  - closure_spacing                # 클로저 중괄호 안 공백
+  - contains_over_filter_count     # filter.count 대신 contains 사용
+  - discouraged_optional_boolean   # Bool? 지양
+  - fatal_error_message            # fatalError에 메시지 필수
+  - first_where                    # filter.first 대신 first(where:) 사용
+  - force_unwrapping               # 강제 언래핑 경고
+  - implicitly_unwrapped_optional  # 암시적 언래핑 옵셔널 경고
+  - last_where                     # filter.last 대신 last(where:) 사용
+  - modifier_order                 # 접근제어자 순서 통일
+  - sorted_first_last              # sorted().first 대신 min() 사용
+  - vertical_whitespace_closing_braces  # 닫는 중괄호 전 빈 줄 제거
+  - vertical_whitespace_opening_braces  # 여는 중괄호 후 빈 줄 제거
+
+# ─── 비활성화할 규칙 ───
+disabled_rules:
+  - trailing_whitespace            # 공백 트레일링 (Xcode가 자동 처리)
+  - todo                           # TODO 주석 허용
+  - opening_brace                  # 커스텀 스타일 허용
+
+# ─── 파일/폴더 제외 ───
+excluded:
+  - Derived
+  - Tuist
+  - Packages
+  - "*.generated.swift"
+
+# ─── 규칙별 세부 설정 ───
+
+# 한 줄 최대 길이
+line_length:
+  warning: 120
+  error: 150
+  ignores_comments: true
+  ignores_urls: true
+
+# 함수 본문 최대 줄 수
+function_body_length:
+  warning: 40
+  error: 60
+
+# 파일 최대 줄 수
+file_length:
+  warning: 400
+  error: 600
+
+# 타입 본문 최대 줄 수
+type_body_length:
+  warning: 300
+  error: 400
+
+# 함수 파라미터 최대 개수
+function_parameter_count:
+  warning: 5
+  error: 7
+
+# 네이밍 규칙
+type_name:
+  min_length: 3
+  max_length: 50
+
+identifier_name:
+  min_length: 2
+  max_length: 50
+  excluded:
+    - id
+    - x
+    - y
+    - i
+    - j
+    - vc
+
+# 중첩 깊이
+nesting:
+  type_level: 2
+  function_level: 3
+
+# 접근제어자 순서
+modifier_order:
+  preferred_modifier_order:
+    - acl
+    - setterACL
+    - override
+    - dynamic
+    - mutating
+    - lazy
+    - final
+    - required
+    - convenience
+    - typeMethods
+    - owned
+
+# ─── 커스텀 규칙 ───
+custom_rules:
+  no_print:
+    name: "No print"
+    regex: "\\bprint\\s*\\("
+    message: "print() 대신 os_log 또는 Logger를 사용하세요"
+    severity: warning
