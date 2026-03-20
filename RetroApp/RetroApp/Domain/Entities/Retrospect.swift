@@ -12,7 +12,7 @@ import Foundation
 /// 사용자가 작성한 회고의 메타 정보를 담고 있으며,
 /// 실제 항목(Keep, Problem, Try 등)은 ``RetrospectItem``으로 분리되어 1:N 관계를 가진다.
 ///
-struct Retrospect {
+struct Retrospect: Sendable, Equatable, Identifiable {
 
     /// 회고 고유 식별자
     let id: UUID

@@ -24,7 +24,7 @@ import Foundation
 ///   Stop: "회의 중에 말 끊기"
 ///   Start: "PR 설명 좀 더 자세히 써주기"
 /// ```
-struct PeerFeedback {
+struct PeerFeedback: Sendable, Equatable, Identifiable {
 
     /// 피드백 고유 식별자
     let id: UUID
@@ -57,19 +57,4 @@ struct PeerFeedback {
 
     /// 피드백 작성 시각
     let createdAt: Date
-}
-
-/// CSS 피어 피드백의 카테고리를 나타내는 열거형.
-///
-/// Continue/Stop/Start 방법론에 기반한다.
-enum PeerFeedbackCategory: String {
-
-    /// 계속 해줬으면 하는 행동
-    case continueDoing
-
-    /// 그만 해줬으면 하는 행동
-    case stopDoing
-
-    /// 새로 시작해줬으면 하는 행동
-    case startDoing
 }

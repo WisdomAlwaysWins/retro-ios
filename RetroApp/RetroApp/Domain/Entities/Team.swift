@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// 팀을 나타내는 Entity
+/// 팀을 나타내는 Domain Entity.
 ///
 /// 팀은 여러 ``TeamMember``와 여러 ``RetrospectSession``을 가진다.
 /// 팀 생성 시 초대 코드가 자동 생성되며, 다른 사용자는 이 코드로 참여할 수 있다.
@@ -15,7 +15,7 @@ import Foundation
 /// ## 인원 제한
 /// - 기본: 2명
 /// - 프리미엄: 10명
-struct Team {
+struct Team: Sendable, Equatable, Identifiable {
 
     /// 팀 고유 식별자
     let id: UUID
@@ -40,7 +40,7 @@ struct Team {
 /// 팀에 소속된 개별 팀원을 나타내는 Domain Entity.
 ///
 /// 하나의 ``Team``에 여러 `TeamMember`가 속한다 (1:N).
-struct TeamMember {
+struct TeamMember: Sendable, Equatable, Identifiable {
 
     /// 팀원 고유 식별자
     let id: UUID
@@ -61,4 +61,3 @@ struct TeamMember {
     /// 팀 참여 시각
     let joinedAt: Date
 }
-

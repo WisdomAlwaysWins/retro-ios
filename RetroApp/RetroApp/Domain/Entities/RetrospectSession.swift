@@ -15,7 +15,7 @@ import Foundation
 ///
 /// ## 피어 피드백
 /// ``isAnonymousFeedback``가 `true`이면 해당 세션의 CSS 피어 피드백이 익명으로 처리된다.
-struct RetrospectSession {
+struct RetrospectSession: Sendable, Equatable, Identifiable {
 
     /// 세션 고유 식별자
     let id: UUID
@@ -62,7 +62,7 @@ struct RetrospectSession {
 ///
 /// 하나의 ``RetrospectSession``에 팀원 수만큼의 `UserSubmission`이 존재한다 (1:N).
 /// 실시간으로 "OO님이 작성 중" 상태를 표시하는 데 사용된다.
-struct UserSubmission {
+struct UserSubmission: Sendable, Equatable, Identifiable {
 
     /// 제출 상태 고유 식별자
     let id: UUID

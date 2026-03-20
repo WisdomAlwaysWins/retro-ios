@@ -17,7 +17,7 @@ import Foundation
 /// 이전 회고의 미해결 Try 항목을 다음 회고로 연결할 수 있다.
 /// - ``linkedTryId``에 원본 Try 항목의 ID를 저장
 /// - ``isResolved``로 해결 여부를 추적
-struct RetrospectItem {
+struct RetrospectItem: Sendable, Equatable, Identifiable {
 
     /// 항목 고유 식별자
     let id: UUID
