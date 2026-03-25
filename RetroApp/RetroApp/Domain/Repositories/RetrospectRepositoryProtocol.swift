@@ -19,7 +19,7 @@ protocol RetrospectRepositoryProtocol {
 
     /// 새 회고를 저장한다.
     ///
-    /// 드래프트 상태로 생성되며, `id`와 `createdAt`이 자동 할당된다.
+    /// 드래프트 상태로 생성되며, `id`와 `createdAt`이 UseCase에서 할당된 상태로 전달된다.
     /// - Parameter retrospect: 저장할 회고
     /// - Returns: 저장된 회고
     func save(_ retrospect: Retrospect) async throws -> Retrospect

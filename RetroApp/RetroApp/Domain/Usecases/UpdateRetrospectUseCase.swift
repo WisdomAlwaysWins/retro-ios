@@ -40,7 +40,7 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
             throw RetrospectError.emptyItems
         }
 
-        var updated = retrospect
+        let updated: Retrospect
 
         if retrospect.status == .confirmed {
             updated = Retrospect(
@@ -49,6 +49,20 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
                 formatId: retrospect.formatId,
                 status: retrospect.status,
                 isEdited: true,
+                type: retrospect.type,
+                teamId: retrospect.teamId,
+                sessionId: retrospect.sessionId,
+                timerDuration: retrospect.timerDuration,
+                createdAt: retrospect.createdAt,
+                confirmedAt: retrospect.confirmedAt
+            )
+        } else {
+            updated = Retrospect(
+                id: retrospect.id,
+                title: retrospect.title,
+                formatId: retrospect.formatId,
+                status: retrospect.status,
+                isEdited: false,
                 type: retrospect.type,
                 teamId: retrospect.teamId,
                 sessionId: retrospect.sessionId,

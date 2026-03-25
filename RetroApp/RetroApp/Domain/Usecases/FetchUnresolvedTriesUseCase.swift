@@ -27,4 +27,3 @@ final class FetchUnresolvedTriesUseCase: FetchUnresolvedTriesUseCaseProtocol {
         try await repository.fetchUnresolvedTries()
     }
 }
-

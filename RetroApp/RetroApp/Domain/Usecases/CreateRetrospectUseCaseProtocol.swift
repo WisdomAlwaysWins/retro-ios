@@ -71,7 +71,20 @@ final class CreateRetrospectUseCase: CreateRetrospectUseCaseProtocol {
         )
 
         let savedRetrospect = try await retrospectRepository.save(retrospect)
-        _ = try await itemRepository.saveAll(items)
+
+        let itemsWithRetrospectId = items.map { item in
+            RetrospectItem(
+                id: item.id,
+                retrospectId: savedRetrospect.id,
+                categoryName: item.categoryName,
+                content: item.content,
+                linkedTryId: item.linkedTryId,
+                isResolved: item.isResolved,
+                order: item.order
+            )
+        }
+
+        _ = try await itemRepository.saveAll(itemsWithRetrospectId)
 
         return savedRetrospect
     }
