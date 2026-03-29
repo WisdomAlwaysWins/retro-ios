@@ -31,7 +31,16 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     /// - Parameter item: 저장할 항목
     /// - Returns: 저장된 항목
     func save(_ item: RetrospectItem) async throws -> RetrospectItem {
-        _ = RetrospectItemMapper.toManagedObject(item, context: coreDataStack.viewContext)
+        let request = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
+        request.predicate = NSPredicate(format: "id == %@", item.retrospectId as CVarArg)
+
+        let response = try coreDataStack.viewContext.fetch(request)
+
+        guard let retrospect = response.first else {
+            throw RetrospectError.retrospectNotFound
+        }
+
+        _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
         try coreDataStack.saveContext(coreDataStack.viewContext)
         return item
     }
@@ -43,8 +52,19 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     /// - Parameter items: 저장할 항목 배열
     /// - Returns: 저장된 항목 배열
     func saveAll(_ items: [RetrospectItem]) async throws -> [RetrospectItem] {
+        guard let firstItem = items.first else { return items }
+
+        let request = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
+        request.predicate = NSPredicate(format: "id == %@", firstItem.retrospectId as CVarArg)
+
+        let response = try coreDataStack.viewContext.fetch(request)
+
+        guard let retrospect = response.first else {
+            throw RetrospectError.retrospectNotFound
+        }
+
         for item in items {
-            _ = RetrospectItemMapper.toManagedObject(item, context: coreDataStack.viewContext)
+            _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
         }
 
         try coreDataStack.saveContext(coreDataStack.viewContext)
@@ -86,6 +106,43 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
         } catch {
             throw error
         }
+    }
+
+    // MARK: - Replace
+
+    /// 특정 회고의 항목을 전부 교체한다.
+    ///
+    /// 기존 항목을 모두 삭제하고 새 항목으로 대체한다.
+    /// 수정 시 중복 생성을 방지한다.
+    /// - Parameters:
+    ///   - retrospectId: 대상 회고의 식별자
+    ///   - items: 새로 저장할 항목 배열
+    /// - Returns: 저장된 항목 배열
+    func replaceAll(retrospectId: UUID, items: [RetrospectItem]) async throws -> [RetrospectItem] {
+        let request = NSFetchRequest<RetrospectItemEntity>(entityName: "RetrospectItemEntity")
+        request.predicate = NSPredicate(format: "retrospectId == %@", retrospectId as CVarArg)
+
+        let response = try coreDataStack.viewContext.fetch(request)
+
+        for managed in response {
+            coreDataStack.viewContext.delete(managed)
+        }
+
+        let retroRequest = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
+        retroRequest.predicate = NSPredicate(format: "id == %@", retrospectId as CVarArg)
+
+        let retroResponse = try coreDataStack.viewContext.fetch(retroRequest)
+
+        guard let retrospect = retroResponse.first else {
+            throw RetrospectError.retrospectNotFound
+        }
+
+        for item in items {
+            _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
+        }
+
+        try coreDataStack.saveContext(coreDataStack.viewContext)
+        return items
     }
 
     // MARK: - Update

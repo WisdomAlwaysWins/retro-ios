@@ -74,7 +74,7 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
 
         let savedRetrospect = try await retrospectRepository.update(updated)
 
-        _ = try await itemRepository.saveAll(items)
+        _ = try await itemRepository.replaceAll(retrospectId: retrospect.id, items: items)
 
         return savedRetrospect
 

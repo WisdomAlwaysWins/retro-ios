@@ -29,11 +29,13 @@ enum RetrospectItemMapper {
 
     static func toManagedObject(
         _ entity: RetrospectItem,
+        retrospect: RetrospectEntity,
         context: NSManagedObjectContext,
     ) -> RetrospectItemEntity {
         let managed = RetrospectItemEntity(context: context)
 
         managed.id = entity.id
+        managed.retrospect = retrospect
         managed.retrospectId = entity.retrospectId
         managed.categoryName = entity.categoryName
         managed.content = entity.content

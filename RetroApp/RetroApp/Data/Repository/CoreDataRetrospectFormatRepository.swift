@@ -77,7 +77,7 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
     func save(_ format: RetrospectFormat) async throws -> RetrospectFormat {
         let managed = RetrospectFormatMapper.toManagedObject(format, context: coreDataStack.viewContext)
         managed.isBuiltIn = false
-        
+
         try coreDataStack.saveContext(coreDataStack.viewContext)
         return format
     }
