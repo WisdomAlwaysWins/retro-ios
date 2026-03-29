@@ -66,7 +66,7 @@ final class CoreDataRetrospectRepository: RetrospectRepositoryProtocol {
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.retrospectNotFound
             }
 
             return RetrospectMapper.toEntity(managed)
@@ -115,7 +115,7 @@ final class CoreDataRetrospectRepository: RetrospectRepositoryProtocol {
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.retrospectNotFound
             }
 
             RetrospectMapper.update(managed, from: retrospect)
@@ -141,7 +141,7 @@ final class CoreDataRetrospectRepository: RetrospectRepositoryProtocol {
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.retrospectNotFound
             }
 
             coreDataStack.viewContext.delete(managed)

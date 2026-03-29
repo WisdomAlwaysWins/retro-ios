@@ -19,7 +19,13 @@ enum RetrospectError: LocalizedError, Sendable {
     case alreadyConfirmed
 
     /// 요청한 회고를 찾을 수 없음
-    case notFound
+    case retrospectNotFound
+
+    /// 요청한 회고 항목을 찾을 수 없음
+    case itemNotFound
+
+    /// 요청한 회고 포맷을 찾을 수 없음
+    case formatNotFound
 
     /// 빌트인 포맷을 삭제 시도
     case cannotDeleteBuiltInFormat
@@ -30,10 +36,15 @@ enum RetrospectError: LocalizedError, Sendable {
             return "항목이 최소 1개 이상 필요합니다"
         case .alreadyConfirmed:
             return "이미 제출된 회고입니다"
-        case .notFound:
+        case .retrospectNotFound:
             return "회고를 찾을 수 없습니다"
+        case .itemNotFound:
+            return "회고 항목을 찾을 수 없습니다"
+        case .formatNotFound:
+            return "회고 포맷을 찾을 수 없습니다"
         case .cannotDeleteBuiltInFormat:
             return "기본 제공 포맷은 삭제할 수 없습니다"
+
         }
     }
 }

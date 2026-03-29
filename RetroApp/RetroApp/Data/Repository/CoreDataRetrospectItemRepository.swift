@@ -104,7 +104,7 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.itemNotFound
             }
 
             RetrospectItemMapper.update(managed, from: item)
@@ -130,7 +130,7 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.itemNotFound
             }
 
             coreDataStack.viewContext.delete(managed)

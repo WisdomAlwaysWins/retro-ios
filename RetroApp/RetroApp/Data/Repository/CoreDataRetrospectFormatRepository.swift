@@ -58,7 +58,7 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.formatNotFound
             }
 
             return RetrospectFormatMapper.toEntity(managed)
@@ -96,7 +96,7 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
             let response = try coreDataStack.viewContext.fetch(request)
 
             guard let managed = response.first else {
-                throw RetrospectError.notFound
+                throw RetrospectError.formatNotFound
             }
 
             guard !managed.isBuiltIn else {
