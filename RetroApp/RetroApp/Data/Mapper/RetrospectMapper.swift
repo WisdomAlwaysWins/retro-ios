@@ -29,11 +29,12 @@ enum RetrospectMapper {
             status: RetrospectStatus(rawValue: managed.status ?? "") ?? .draft,
             isEdited: managed.isEdited,
             type: RetrospectType(rawValue: managed.type ?? "") ?? .personal,
-            teamId: managed.teamId ?? UUID(),
-            sessionId: managed.sessionId ?? UUID(),
+            teamId: managed.teamId,
+            sessionId: managed.sessionId,
             timerDuration: managed.timerDuration == 0 ? nil : Int(managed.timerDuration),
             createdAt: managed.createdAt ?? Date(),
-            confirmedAt: managed.confirmedAt ?? Date())
+            confirmedAt: managed.confirmedAt
+        )
     }
 
     // MARK: - Domain Entity → ManagedObject
