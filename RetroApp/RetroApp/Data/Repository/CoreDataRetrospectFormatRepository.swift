@@ -75,7 +75,9 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
     /// - Parameter format: 저장할 포맷
     /// - Returns: 저장된 포맷
     func save(_ format: RetrospectFormat) async throws -> RetrospectFormat {
-        _ = RetrospectFormatMapper.toManagedObject(format, context: coreDataStack.viewContext)
+        let managed = RetrospectFormatMapper.toManagedObject(format, context: coreDataStack.viewContext)
+        managed.isBuiltIn = false
+        
         try coreDataStack.saveContext(coreDataStack.viewContext)
         return format
     }
