@@ -12,6 +12,7 @@
         <attribute name="timerDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="title" optional="YES" attributeType="String"/>
         <attribute name="type" attributeType="String"/>
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RetrospectItemEntity" inverseName="retrospect" inverseEntity="RetrospectItemEntity"/>
     </entity>
     <entity name="RetrospectFormatEntity" representedClassName="RetrospectFormatEntity" syncable="YES" codeGenerationType="class">
         <attribute name="categoriesJSON" attributeType="String"/>
@@ -29,5 +30,6 @@
         <attribute name="linkedTryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="retrospectId" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="retrospect" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RetrospectEntity" inverseName="items" inverseEntity="RetrospectEntity"/>
     </entity>
 </model>
