@@ -38,14 +38,18 @@ final class CoreDataStack {
     /// CoreDataStack을 초기화한다.
     ///
     /// - Parameter modelName: .xcdatamodeld 파일 이름. 기본값 "RetroApp"
-    init(modelName: String = "RetroApp") {
+    init(modelName: String = "RetroApp") throws {
         container = NSPersistentContainer(name: modelName)
+
+        var loadError: Error?
 
         // SQLite 파일을 열어서 준비하는 과정
         container.loadPersistentStores { _, error in
-            if let error {
-                fatalError("Core Data 로드 실패: \(error)")
-            }
+            loadError = error
+        }
+
+        if let loadError {
+            throw loadError
         }
 
         // 백그라운드에서 저장하면 viewContext에 자동 반영
