@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="24512" systemVersion="24G222" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="RetrospectEntity" representedClassName="RetrospectEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="confirmedAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="formatId" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isEdited" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="sessionId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="status" attributeType="String"/>
+        <attribute name="teamId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timerDuration" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="type" attributeType="String"/>
+    </entity>
+    <entity name="RetrospectFormatEntity" representedClassName="RetrospectFormatEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="categoriesJSON" attributeType="String"/>
+        <attribute name="descriptionText" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isBuiltIn" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="recommendWhen" attributeType="String"/>
+    </entity>
+    <entity name="RetrospectItemEntity" representedClassName="RetrospectItemEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="categoryName" attributeType="String"/>
+        <attribute name="content" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isResolved" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="linkedTryId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="order" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="retrospectId" attributeType="UUID" usesScalarValueType="NO"/>
+    </entity>
+</model>
