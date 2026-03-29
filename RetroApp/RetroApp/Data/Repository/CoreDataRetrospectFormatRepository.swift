@@ -34,7 +34,7 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
         let request = NSFetchRequest<RetrospectFormatEntity>(entityName: "RetrospectFormatEntity")
         request.sortDescriptors = [
             NSSortDescriptor(key: "isBuiltIn", ascending: false),
-            NSSortDescriptor(key: "name", ascending: true),
+            NSSortDescriptor(key: "name", ascending: true)
         ]
 
         do {
