@@ -49,7 +49,7 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
     ///
     /// - Parameter id: 조회할 포맷의 식별자
     /// - Returns: 해당 포맷
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 포맷이 없을 때
+    /// - Throws: ``RetrospectError/formatNotFound`` — 해당 ID의 포맷이 없을 때
     func fetchById(_ id: UUID) async throws -> RetrospectFormat {
         let request = NSFetchRequest<RetrospectFormatEntity>(entityName: "RetrospectFormatEntity")
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
@@ -88,7 +88,7 @@ final class CoreDataRetrospectFormatRepository: RetrospectFormatRepositoryProtoc
     ///
     /// 빌트인 포맷은 삭제할 수 없다. 시도 시 ``RetrospectError/cannotDeleteBuiltInFormat`` 에러.
     /// - Parameter id: 삭제할 포맷의 식별자
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 포맷이 없을 때
+    /// - Throws: ``RetrospectError/formatNotFound`` — 해당 ID의 포맷이 없을 때
     /// - Throws: ``RetrospectError/cannotDeleteBuiltInFormat`` — 빌트인 포맷 삭제 시도 시
     func delete(_ id: UUID) async throws {
         let request = NSFetchRequest<RetrospectFormatEntity>(entityName: "RetrospectFormatEntity")
