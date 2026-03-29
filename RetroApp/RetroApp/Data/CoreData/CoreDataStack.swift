@@ -75,6 +75,9 @@ final class CoreDataStack {
     /// - Parameter context: 저장할 Context
     func saveContext(_ context: NSManagedObjectContext) throws {
         guard context.hasChanges else { return }
-        try context.save()
+
+        try context.performAndWait {
+            try context.save()
+        }
     }
 }
