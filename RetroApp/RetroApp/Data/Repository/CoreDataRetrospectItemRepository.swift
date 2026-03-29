@@ -95,7 +95,7 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     /// ID로 기존 ManagedObject를 찾아 ``RetrospectItemMapper``로 값을 덮어쓴다.
     /// - Parameter item: 업데이트할 항목
     /// - Returns: 업데이트된 항목
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 항목이 없을 때
+    /// - Throws: ``RetrospectError/itemNotFound`` — 해당 ID의 항목이 없을 때
     func update(_ item: RetrospectItem) async throws -> RetrospectItem {
         let request = NSFetchRequest<RetrospectItemEntity>(entityName: "RetrospectItemEntity")
         request.predicate = NSPredicate(format: "id == %@", item.id as CVarArg)
@@ -121,7 +121,7 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     /// 회고 항목을 삭제한다.
     ///
     /// - Parameter id: 삭제할 항목의 식별자
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 항목이 없을 때
+    /// - Throws: ``RetrospectError/itemNotFound`` — 해당 ID의 항목이 없을 때
     func delete(_ id: UUID) async throws {
         let request = NSFetchRequest<RetrospectItemEntity>(entityName: "RetrospectItemEntity")
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)

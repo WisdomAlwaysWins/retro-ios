@@ -57,7 +57,7 @@ final class CoreDataRetrospectRepository: RetrospectRepositoryProtocol {
     ///
     /// - Parameter id: 조회할 회고의 식별자
     /// - Returns: 해당 회고
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 회고가 없을 때
+    /// - Throws: ``RetrospectError/retrospectNotFound`` — 해당 ID의 회고가 없을 때
     func fetchById(_ id: UUID) async throws -> Retrospect {
         let request = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
@@ -106,7 +106,7 @@ final class CoreDataRetrospectRepository: RetrospectRepositoryProtocol {
     /// ID로 기존 ManagedObject를 찾아 ``RetrospectMapper``로 값을 덮어쓴다.
     /// - Parameter retrospect: 업데이트할 회고
     /// - Returns: 업데이트된 회고
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 회고가 없을 때
+    /// - Throws: ``RetrospectError/retrospectNotFound`` — 해당 ID의 회고가 없을 때
     func update(_ retrospect: Retrospect) async throws -> Retrospect {
         let request = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
         request.predicate = NSPredicate(format: "id == %@", retrospect.id as CVarArg)
@@ -132,7 +132,7 @@ final class CoreDataRetrospectRepository: RetrospectRepositoryProtocol {
     /// ID로 ManagedObject를 찾아 context에서 삭제한다.
     /// 연관된 ``RetrospectItem``의 cascade 삭제는 Core Data relationship 설정에 의존한다.
     /// - Parameter id: 삭제할 회고의 식별자
-    /// - Throws: ``RetrospectError/notFound`` — 해당 ID의 회고가 없을 때
+    /// - Throws: ``RetrospectError/retrospectNotFound`` — 해당 ID의 회고가 없을 때
     func delete(_ id: UUID) async throws {
         let request = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
