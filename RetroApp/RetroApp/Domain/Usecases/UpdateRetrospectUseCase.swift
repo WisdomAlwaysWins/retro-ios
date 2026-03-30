@@ -77,7 +77,7 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
         let normalizedItems = items.map { item in
             RetrospectItem(
                 id: item.id,
-                retrospectId: retrospect.id,
+                retrospectId: savedRetrospect.id,
                 categoryName: item.categoryName,
                 content: item.content,
                 linkedTryId: item.linkedTryId,
@@ -88,6 +88,5 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
         _ = try await itemRepository.replaceAll(retrospectId: retrospect.id, items: normalizedItems)
 
         return savedRetrospect
-
     }
 }
