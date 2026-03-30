@@ -119,15 +119,6 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     ///   - items: 새로 저장할 항목 배열
     /// - Returns: 저장된 항목 배열
     func replaceAll(retrospectId: UUID, items: [RetrospectItem]) async throws -> [RetrospectItem] {
-        let request = NSFetchRequest<RetrospectItemEntity>(entityName: "RetrospectItemEntity")
-        request.predicate = NSPredicate(format: "retrospectId == %@", retrospectId as CVarArg)
-
-        let response = try coreDataStack.viewContext.fetch(request)
-
-        for managed in response {
-            coreDataStack.viewContext.delete(managed)
-        }
-
         let retroRequest = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
         retroRequest.predicate = NSPredicate(format: "id == %@", retrospectId as CVarArg)
 
@@ -135,6 +126,15 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
 
         guard let retrospect = retroResponse.first else {
             throw RetrospectError.retrospectNotFound
+        }
+
+        let request = NSFetchRequest<RetrospectItemEntity>(entityName: "RetrospectItemEntity")
+        request.predicate = NSPredicate(format: "retrospectId == %@", retrospectId as CVarArg)
+
+        let response = try coreDataStack.viewContext.fetch(request)
+
+        for managed in response {
+            coreDataStack.viewContext.delete(managed)
         }
 
         for item in items {
