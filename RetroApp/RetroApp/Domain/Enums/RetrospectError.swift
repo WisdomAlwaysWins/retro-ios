@@ -30,6 +30,9 @@ enum RetrospectError: LocalizedError, Sendable {
     /// 빌트인 포맷을 삭제 시도
     case cannotDeleteBuiltInFormat
 
+    /// 항목의 retrospectId가 불일치할 때
+    case mismatchedRetrospectId
+
     var errorDescription: String? {
         switch self {
         case .emptyItems:
@@ -42,6 +45,8 @@ enum RetrospectError: LocalizedError, Sendable {
             return "회고 항목을 찾을 수 없습니다"
         case .formatNotFound:
             return "회고 포맷을 찾을 수 없습니다"
+        case .mismatchedRetrospectId:
+            return "항목의 회고 ID가 일치하지 않습니다"
         case .cannotDeleteBuiltInFormat:
             return "기본 제공 포맷은 삭제할 수 없습니다"
 

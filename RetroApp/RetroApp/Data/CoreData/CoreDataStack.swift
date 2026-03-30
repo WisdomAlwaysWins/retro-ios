@@ -41,21 +41,22 @@ final class CoreDataStack {
     init(modelName: String = "RetroApp") throws {
         container = NSPersistentContainer(name: modelName)
 
+        let group = DispatchGroup()
         var loadError: Error?
 
-        // SQLite 파일을 열어서 준비하는 과정
+        group.enter()
         container.loadPersistentStores { _, error in
             loadError = error
+            group.leave()
         }
+        group.wait()
 
         if let loadError {
             throw loadError
         }
 
-        // 백그라운드에서 저장하면 viewContext에 자동 반영
         container.viewContext.automaticallyMergesChangesFromParent = true
 
-        // 같은 객체를 중복 생성하지 않고 기존 객체를 재사용
         container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
 
