@@ -15,16 +15,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         Task {
-            let coreDataStack = try await CoreDataStack()
-            let diContainer = DIContainer(coreDataStack: coreDataStack)
-            let navigationController = UINavigationController()
-            let coordinator = AppCoordinator(
-                navigationController: navigationController,
-                diContainer: diContainer,
-                window: window
-            )
-            self.coordinator = coordinator
-            coordinator.start()
+            do {
+                let coreDataStack = try await CoreDataStack()
+                let diContainer = DIContainer(coreDataStack: coreDataStack)
+                let navigationController = UINavigationController()
+                let coordinator = AppCoordinator(
+                    navigationController: navigationController,
+                    diContainer: diContainer,
+                    window: window
+                )
+                self.coordinator = coordinator
+                coordinator.start()
+            } catch {
+                // TODO: 에러 UI 표시 예정
+            }
         }
     }
 
