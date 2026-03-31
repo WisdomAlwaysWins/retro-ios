@@ -13,6 +13,7 @@ final class RetrospectListViewModel {
 
     private(set) var retrospects: [Retrospect] = []
     var onRetrospectsFetched: (() -> Void)?
+    var onError: ((String) -> Void)?
 
     init(fetchRetrospectListUseCase: FetchRetrospectListUseCaseProtocol) {
         self.fetchRetrospectListUseCase = fetchRetrospectListUseCase
@@ -24,7 +25,7 @@ final class RetrospectListViewModel {
                 retrospects = try await fetchRetrospectListUseCase.execute()
                 onRetrospectsFetched?()
             } catch {
-                // TODO: 에러 처리 (나중에 추가)
+                onError?(error.localizedDescription)
             }
         }
     }

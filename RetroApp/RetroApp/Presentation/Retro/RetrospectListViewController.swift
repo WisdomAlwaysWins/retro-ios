@@ -72,6 +72,23 @@ final class RetrospectListViewController: UIViewController {
                 self?.tableView.reloadData()
             }
         }
+
+        viewModel.onError = { message in
+            // TODO: Alert으로 교체 예정
+        }
+    }
+
+    // MARK: - Formatter
+
+    private static let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy년 M월 d일 회고"
+        formatter.locale = Locale(identifier: "ko_KR")
+        return formatter
+    }()
+
+    private func formatDate(_ date: Date) -> String {
+        Self.dateFormatter.string(from: date)
     }
 }
 
@@ -86,7 +103,7 @@ extension RetrospectListViewController: UITableViewDataSource {
         let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "RetrospectCell")
         let retrospect = viewModel.retrospects[indexPath.row]
 
-        cell.textLabel?.text = retrospect.title ?? "제목 없음"
+        cell.textLabel?.text = retrospect.title ?? formatDate(retrospect.createdAt)
         cell.detailTextLabel?.text = retrospect.status.rawValue
 
         return cell

@@ -2,6 +2,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    private var coordinator: AppCoordinator?
 
     func scene(
         _ scene: UIScene,
@@ -19,6 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             diContainer: diContainer,
             window: window
         )
+        self.coordinator = coordinator
         coordinator.start()
     }
 
