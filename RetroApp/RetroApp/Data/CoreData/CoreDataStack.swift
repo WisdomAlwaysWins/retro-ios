@@ -38,20 +38,21 @@ final class CoreDataStack {
     /// CoreDataStack을 초기화한다.
     ///
     /// - Parameter modelName: .xcdatamodeld 파일 이름. 기본값 "RetroApp"
-    init(modelName: String = "RetroApp") {
+    init(modelName: String = "RetroApp") async throws {
         container = NSPersistentContainer(name: modelName)
 
-        // SQLite 파일을 열어서 준비하는 과정
-        container.loadPersistentStores { _, error in
-            if let error {
-                fatalError("Core Data 로드 실패: \(error)")
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            container.loadPersistentStores { _, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
             }
         }
 
-        // 백그라운드에서 저장하면 viewContext에 자동 반영
         container.viewContext.automaticallyMergesChangesFromParent = true
 
-        // 같은 객체를 중복 생성하지 않고 기존 객체를 재사용
         container.viewContext.mergePolicy = NSMergePolicy.mergeByPropertyObjectTrump
     }
 
@@ -70,7 +71,9 @@ final class CoreDataStack {
     /// 변경사항이 없으면 아무것도 하지 않는다.
     /// - Parameter context: 저장할 Context
     func saveContext(_ context: NSManagedObjectContext) throws {
-        guard context.hasChanges else { return }
-        try context.save()
+        try context.performAndWait {
+            guard context.hasChanges else { return }
+            try context.save()
+        }
     }
 }

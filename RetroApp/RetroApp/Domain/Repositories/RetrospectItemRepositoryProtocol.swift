@@ -32,6 +32,12 @@ protocol RetrospectItemRepositoryProtocol: Sendable {
     /// - Returns: 항목 배열
     func fetchByRetrospectId(_ retrospectId: UUID) async throws -> [RetrospectItem]
 
+    /// 특정 회고의 항목을 전부 교체한다.
+    ///
+    /// 기존 항목을 모두 삭제하고 새 항목으로 대체한다.
+    /// 수정 시 중복 생성을 방지한다.
+    func replaceAll(retrospectId: UUID, items: [RetrospectItem]) async throws -> [RetrospectItem]
+
     /// 회고 항목을 업데이트한다.
     ///
     /// 내용 수정, 순서 변경, 해결 여부 변경 시 사용한다.

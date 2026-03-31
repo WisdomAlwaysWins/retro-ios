@@ -74,9 +74,19 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
 
         let savedRetrospect = try await retrospectRepository.update(updated)
 
-        _ = try await itemRepository.saveAll(items)
+        let normalizedItems = items.map { item in
+            RetrospectItem(
+                id: item.id,
+                retrospectId: savedRetrospect.id,
+                categoryName: item.categoryName,
+                content: item.content,
+                linkedTryId: item.linkedTryId,
+                isResolved: item.isResolved,
+                order: item.order
+            )
+        }
+        _ = try await itemRepository.replaceAll(retrospectId: savedRetrospect.id, items: normalizedItems)
 
         return savedRetrospect
-
     }
 }
