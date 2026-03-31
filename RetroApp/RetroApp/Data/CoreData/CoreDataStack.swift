@@ -38,21 +38,17 @@ final class CoreDataStack {
     /// CoreDataStack을 초기화한다.
     ///
     /// - Parameter modelName: .xcdatamodeld 파일 이름. 기본값 "RetroApp"
-    init(modelName: String = "RetroApp") throws {
+    init(modelName: String = "RetroApp") async throws {
         container = NSPersistentContainer(name: modelName)
 
-        let group = DispatchGroup()
-        var loadError: Error?
-
-        group.enter()
-        container.loadPersistentStores { _, error in
-            loadError = error
-            group.leave()
-        }
-        group.wait()
-
-        if let loadError {
-            throw loadError
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            container.loadPersistentStores { _, error in
+                if let error {
+                    continuation.resume(throwing: error)
+                } else {
+                    continuation.resume()
+                }
+            }
         }
 
         container.viewContext.automaticallyMergesChangesFromParent = true
