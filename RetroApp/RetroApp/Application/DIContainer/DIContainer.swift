@@ -15,13 +15,19 @@ final class DIContainer {
 
     // MARK: - Core Data
 
-    lazy var coreDataStack = CoreDataStack()
+    let coreDataStack: CoreDataStack
 
     // MARK: - Repository
 
     lazy var retrospectRepository = CoreDataRetrospectRepository(coreDataStack: coreDataStack)
     lazy var retrospectItemRepository = CoreDataRetrospectItemRepository(coreDataStack: coreDataStack)
     lazy var retrospectFormatRepository = CoreDataRetrospectFormatRepository(coreDataStack: coreDataStack)
+
+    // MARK: - Init
+
+    init(coreDataStack: CoreDataStack) {
+        self.coreDataStack = coreDataStack
+    }
 
     // MARK: - UseCase
 

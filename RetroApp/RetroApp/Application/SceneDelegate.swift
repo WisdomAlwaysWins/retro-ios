@@ -13,15 +13,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         self.window = window
-        let navigationController = UINavigationController()
-        let diContainer = DIContainer()
-        let coordinator = AppCoordinator(
-            navigationController: navigationController,
-            diContainer: diContainer,
-            window: window
-        )
-        self.coordinator = coordinator
-        coordinator.start()
+
+        Task {
+            let coreDataStack = try await CoreDataStack()
+            let diContainer = DIContainer(coreDataStack: coreDataStack)
+            let navigationController = UINavigationController()
+            let coordinator = AppCoordinator(
+                navigationController: navigationController,
+                diContainer: diContainer,
+                window: window
+            )
+            self.coordinator = coordinator
+            coordinator.start()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
