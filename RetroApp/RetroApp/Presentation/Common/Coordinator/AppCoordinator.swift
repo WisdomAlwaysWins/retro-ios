@@ -20,6 +20,10 @@ final class AppCoordinator: Coordinator {
     }
 
     func start() {
+        Task {
+            await diContainer.builtInFormatSeeder.seedIfNeeded()
+        }
+
         let viewModel = RetrospectListViewModel(fetchRetrospectListUseCase: diContainer.fetchRetrospectListUseCase)
 
         let viewController = RetrospectListViewController(viewModel: viewModel)

@@ -23,6 +23,12 @@ final class DIContainer {
     lazy var retrospectItemRepository = CoreDataRetrospectItemRepository(coreDataStack: coreDataStack)
     lazy var retrospectFormatRepository = CoreDataRetrospectFormatRepository(coreDataStack: coreDataStack)
 
+    // MARK: - Seeder
+    
+    lazy var builtInFormatSeeder = BuiltInFormatSeeder(
+        formatRepository: retrospectFormatRepository
+    )
+
     // MARK: - Init
 
     init(coreDataStack: CoreDataStack) {
