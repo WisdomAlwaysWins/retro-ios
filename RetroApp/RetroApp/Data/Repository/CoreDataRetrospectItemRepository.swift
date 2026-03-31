@@ -138,6 +138,9 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
         }
 
         for item in items {
+            guard item.retrospectId == retrospectId else {
+                throw RetrospectError.mismatchedRetrospectId
+            }
             _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
         }
 

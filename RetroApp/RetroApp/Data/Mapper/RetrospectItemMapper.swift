@@ -35,8 +35,8 @@ enum RetrospectItemMapper {
         let managed = RetrospectItemEntity(context: context)
 
         managed.id = entity.id
+        managed.retrospectId = retrospect.id
         managed.retrospect = retrospect
-        managed.retrospectId = entity.retrospectId
         managed.categoryName = entity.categoryName
         managed.content = entity.content
         managed.linkedTryId = entity.linkedTryId
