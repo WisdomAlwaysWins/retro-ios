@@ -68,7 +68,6 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
         guard let retrospect = response.first else {
             throw RetrospectError.retrospectNotFound
         }
-        
         for item in items {
             _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
         }
