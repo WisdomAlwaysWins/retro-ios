@@ -54,6 +54,12 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     func saveAll(_ items: [RetrospectItem]) async throws -> [RetrospectItem] {
         guard let firstItem = items.first else { return items }
 
+        for item in items {
+            guard item.retrospectId == firstItem.retrospectId else {
+                throw RetrospectError.mismatchedRetrospectId
+            }
+        }
+
         let request = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
         request.predicate = NSPredicate(format: "id == %@", firstItem.retrospectId as CVarArg)
 
@@ -62,7 +68,6 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
         guard let retrospect = response.first else {
             throw RetrospectError.retrospectNotFound
         }
-
         for item in items {
             _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
         }
@@ -119,6 +124,12 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
     ///   - items: 새로 저장할 항목 배열
     /// - Returns: 저장된 항목 배열
     func replaceAll(retrospectId: UUID, items: [RetrospectItem]) async throws -> [RetrospectItem] {
+        for item in items {
+            guard item.retrospectId == retrospectId else {
+                throw RetrospectError.mismatchedRetrospectId
+            }
+        }
+
         let retroRequest = NSFetchRequest<RetrospectEntity>(entityName: "RetrospectEntity")
         retroRequest.predicate = NSPredicate(format: "id == %@", retrospectId as CVarArg)
 
@@ -138,9 +149,6 @@ final class CoreDataRetrospectItemRepository: RetrospectItemRepositoryProtocol {
         }
 
         for item in items {
-            guard item.retrospectId == retrospectId else {
-                throw RetrospectError.mismatchedRetrospectId
-            }
             _ = RetrospectItemMapper.toManagedObject(item, retrospect: retrospect, context: coreDataStack.viewContext)
         }
 

@@ -73,7 +73,7 @@ final class RetrospectListViewController: UIViewController {
             }
         }
 
-        viewModel.onError = { message in
+        viewModel.onError = { _ in
             // TODO: Alert으로 교체 예정
         }
     }

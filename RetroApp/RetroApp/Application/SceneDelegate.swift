@@ -1,8 +1,10 @@
+import OSLog
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     private var coordinator: AppCoordinator?
+    private let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.kimjihye.RetroApp", category: "SceneDelegate")
 
     func scene(
         _ scene: UIScene,
@@ -15,16 +17,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         Task {
-            let coreDataStack = try await CoreDataStack()
-            let diContainer = DIContainer(coreDataStack: coreDataStack)
-            let navigationController = UINavigationController()
-            let coordinator = AppCoordinator(
-                navigationController: navigationController,
-                diContainer: diContainer,
-                window: window
-            )
-            self.coordinator = coordinator
-            coordinator.start()
+            do {
+                let coreDataStack = try await CoreDataStack()
+                let diContainer = DIContainer(coreDataStack: coreDataStack)
+                let navigationController = UINavigationController()
+                let coordinator = AppCoordinator(
+                    navigationController: navigationController,
+                    diContainer: diContainer,
+                    window: window
+                )
+                self.coordinator = coordinator
+                coordinator.start()
+            } catch {
+                logger.error("CoreDataStack initialization failed: \(error, privacy: .public)")
+                // TODO: 에러 UI 표시 예정
+            }
         }
     }
 
