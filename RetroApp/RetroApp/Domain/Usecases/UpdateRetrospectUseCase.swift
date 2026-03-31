@@ -85,7 +85,7 @@ final class UpdateRetrospectUseCase: UpdateRetrospectUseCaseProtocol {
                 order: item.order
             )
         }
-        _ = try await itemRepository.replaceAll(retrospectId: retrospect.id, items: normalizedItems)
+        _ = try await itemRepository.replaceAll(retrospectId: savedRetrospect.id, items: normalizedItems)
 
         return savedRetrospect
     }
